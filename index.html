@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dana Research Group — The Kinetics and Chemical Technology Laboratory</title>
+<link rel="icon" href="assets/favicon.jpg" type="image/jpeg" sizes="16x16">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=geist:400,500,600,700|geist-mono:400,500" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff; --bg-soft:#F7F8FA; --line:#E6E8EC;
+    --text:#16191D; --muted:#5B6470; --faint:#68717B;
+    --accent:#2D6BB5; --accent-deep:#21558F; --accent-tint:#EAF1F9;
+    --dark:#23272E;
+    --sans:'Geist',system-ui,sans-serif; --mono:'Geist Mono',monospace;
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+
+  /* ---- a11y ---- */
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:var(--accent);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;font-weight:600;text-decoration:none}
+  .skip-link:focus{left:0}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  main:focus{outline:none}
+  /* honour a user's request for more contrast: push secondary text/borders darker (native, no toolbar) */
+  @media (prefers-contrast:more){ :root{ --muted:#3A4149; --faint:#3A4149; --line:#7C838D } }
+  /* Windows High-Contrast / forced-colors: pin the focus ring to the system highlight so it never vanishes */
+  @media (forced-colors:active){ :focus-visible{outline-color:Highlight} }
+  /* accessibility statement (elegant + small, below the footer) */
+  .a11y-statement{border-top:1px solid var(--line);background:var(--bg);padding:38px 0 46px}
+  .a11y-statement h2{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .a11y-statement p{font-size:13px;line-height:1.65;color:var(--muted);max-width:80ch;margin:0 0 10px}
+  .a11y-statement a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,107,181,.3)}
+  .a11y-statement .a11y-meta{display:flex;flex-wrap:wrap;gap:4px 24px;font-size:12px;margin-top:14px;color:var(--muted)}
+  .a11y-statement .a11y-meta strong{color:var(--text)}
+
+  /* ---- nav ---- */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:inline-flex;flex-direction:column;justify-content:center;gap:2px;color:inherit;text-decoration:none}
+  .brand .bname{font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.05}
+  .brand .btag{font-weight:500;font-size:11px;letter-spacing:.02em;color:var(--muted);line-height:1.05;white-space:nowrap}
+  @media(max-width:400px){ .brand .btag{font-size:10px} }   /* nowrap keeps the tagline on one line; the smaller size makes it fit without overflow on the narrowest phones */
+  nav.links{display:flex;gap:30px;font-size:14.5px;color:var(--muted)}
+  nav.links a:hover{color:var(--text)}
+  /* institutional affiliation bar (top) */
+  .topbar{border-bottom:1px solid var(--line);background:#fff}
+  .topbar .wrap{display:flex;align-items:center;justify-content:center;gap:26px;
+    height:66px;flex-wrap:nowrap}
+  .topbar img{height:30px;width:auto;display:block;opacity:.85;transition:opacity .18s}
+  .topbar .tb-drg{height:40px;opacity:1}   /* DRG monogram (no wordmark) — sized as the anchor mark */
+  .topbar a{display:inline-flex;min-width:0}
+  .topbar a:hover img{opacity:1}
+  .topbar .fdiv{width:1px;height:30px;background:var(--line);flex:none}
+  @media(max-width:520px){ .topbar .wrap{gap:11px} .topbar img{height:20px} .topbar .tb-drg{height:26px} }
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;border-radius:8px;
+    padding:10px 16px;transition:all .18s ease;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-deep)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--faint)}
+  .btn .arr{transition:transform .2s}
+  .btn:hover .arr{transform:translateX(3px)}
+
+  /* ---- hero ---- */
+  .hero{position:relative;overflow:hidden}
+  #pes{position:absolute;top:0;right:0;width:62%;height:100%;z-index:1}
+  .hero::after{content:"";position:absolute;top:0;bottom:0;left:38%;width:160px;z-index:2;pointer-events:none;
+    background:linear-gradient(90deg,#fff 12%,rgba(255,255,255,0) 100%)}
+  .hero .wrap{position:relative;z-index:3;padding:104px 32px 96px}
+  .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:24px}
+  h1{font-size:clamp(38px,5.4vw,64px);font-weight:700;line-height:1.04;letter-spacing:-.025em;max-width:13ch}
+  .sub{font-size:clamp(16px,1.7vw,19px);color:var(--muted);max-width:46ch;margin-top:26px;line-height:1.6}
+  .cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+
+  /* ---- stat band ---- */
+  .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-soft)}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:34px 28px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0}
+  .stat .num{font-size:34px;font-weight:700;letter-spacing:-.02em}
+  .stat .lab{font-size:13.5px;color:var(--muted);margin-top:4px}
+
+  /* ---- section scaffold ---- */
+  section{padding:104px 0}
+  .sec-h{max-width:62ch}
+  .kicker{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+  h2{font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .sec-lede{font-size:17px;color:var(--muted);margin-top:18px;line-height:1.6}
+
+  /* ---- research cards ---- */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+  .card{border:1px solid var(--line);border-radius:14px;padding:30px;background:var(--bg);transition:all .2s}
+  .card:hover{border-color:var(--faint);box-shadow:0 8px 30px rgba(20,25,35,.06);transform:translateY(-2px)}
+  .card .ic{width:38px;height:38px;border-radius:9px;background:var(--accent-tint);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;margin-bottom:18px}
+  .card h3{font-size:19px;font-weight:600;margin-bottom:10px}
+  .card p{font-size:14.5px;color:var(--muted);line-height:1.6}
+
+  /* ---- research: static plug-flow reactor image (no animation — the hero already carries the motion) ---- */
+  .pfr{margin:54px 0 6px;display:flex;justify-content:center}
+  .pfr-tilt{width:100%;max-width:1040px}
+  .pfr img{display:block;width:100%;height:auto;filter:drop-shadow(0 14px 26px rgba(33,85,143,.13))}
+  @media(max-width:600px){ .pfr{margin:36px 0 2px} .pfr img{filter:drop-shadow(0 8px 16px rgba(33,85,143,.10))} }
+
+  /* ---- software ---- */
+  .sw{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px}
+  .swc{border:1px solid var(--line);border-radius:14px;padding:30px;display:flex;flex-direction:column;transition:all .2s}
+  .swc h3{color:var(--accent);font-size:24px;font-weight:700;letter-spacing:-.01em}
+  .swc .nm{font-size:14px;font-weight:600;margin:4px 0 14px}
+  .swc p{font-size:14px;color:var(--muted);line-height:1.6;flex:1}
+  .swc a.gh{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--muted);margin-top:22px}
+  .swc a.gh:hover{color:var(--accent)}
+  .swc a.gh svg{width:16px;height:16px}
+  /* ---- Software: "show me the code" fixed parallax backdrop ---- */
+  #software{position:relative;background-color:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  #software::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:url('assets/software-code-bg.jpg') center top / cover no-repeat fixed;
+    opacity:.62}
+  /* soft white feather top & bottom so the code melts into the neighbouring sections */
+  #software::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,#fff 0,rgba(255,255,255,0) 14%,rgba(255,255,255,0) 86%,#fff 100%)}
+  #software > .wrap{position:relative;z-index:1}
+  #software .swc{background:rgba(255,255,255,.66);border-color:rgba(230,232,236,.85);
+    backdrop-filter:blur(7px) saturate(1.05);-webkit-backdrop-filter:blur(7px) saturate(1.05);
+    box-shadow:0 1px 3px rgba(20,25,35,.05)}
+  #software .swc:hover{border-color:var(--faint);transform:translateY(-2px);
+    box-shadow:0 8px 30px rgba(20,25,35,.10);background:rgba(255,255,255,.82)}
+  @media(max-width:768px){ #software::before{background-attachment:scroll} }
+
+  /* ---- team ---- */
+  .pi-feature{display:flex;gap:30px;align-items:flex-start;padding-bottom:42px;margin-top:12px;border-bottom:1px solid var(--line)}
+  .pi-feature .mphoto{width:216px;flex:none}
+  .pi-info{flex:1}
+  .pi-feature .mname{font-size:23px;font-weight:700;letter-spacing:-.02em}
+  .pi-feature .mrole{font-size:14px;color:var(--accent);margin-top:3px}
+  .pi-bio{font-size:14.5px;color:var(--muted);line-height:1.65;margin-top:14px;max-width:66ch}
+  .tgroup{margin-top:46px}
+  .tglabel{font-family:var(--mono);font-size:16px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:30px 22px}
+  .mphoto{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;background:rgb(128,128,128);display:block}
+  .mph-ph{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;color:#fff;background:rgb(128,128,128);font-size:clamp(24px,4vw,34px)}  /* #808080 → white initials 3.95:1 (was rgb(180,180,180), 2.07:1) */
+  .mname{font-size:15.5px;font-weight:600;margin-top:13px;letter-spacing:-.01em;line-height:1.3}
+  .member .mname{min-height:2.6em}      /* reserve 2 name lines so icons align across a row */
+  .mrole{font-size:13px;color:var(--accent);margin-top:3px;line-height:1.35}
+  .member .mrole{min-height:2.7em}      /* reserve 2 role lines so the icon row lands at a fixed offset */
+  .msub{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .tgroup--alumni{margin-top:58px;border-top:1px solid var(--line);padding-top:52px}
+  .member .mname,.pi-feature .mname{transition:color .18s ease}
+  .member .mphoto{transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease}
+  .member:hover .mname,.pi-feature:hover .mname{color:var(--accent)}
+  .member:hover .mphoto{transform:translateY(-4px) scale(1.027);box-shadow:0 10px 17px rgba(20,25,35,.11)}
+  @media(prefers-reduced-motion:reduce){
+    .member .mphoto{transition:box-shadow .2s ease}
+    .member:hover .mphoto{transform:none;box-shadow:0 5px 12px rgba(20,25,35,.1)}
+  }
+  /* ---- industry ---- */
+  .industry .pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .industry .pill{font-family:var(--mono);font-size:13px;letter-spacing:.01em;color:var(--accent-deep);
+    background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:9px 17px}
+  .industry .icta{margin-top:30px}
+  /* ---- partners marquee ---- */
+  .partners{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:40px 0;background:var(--bg)}
+  .partners .plabel{text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:28px}
+  .marquee{position:relative;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .marquee-track{display:flex;align-items:center;width:max-content;animation:marquee 48s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  /* right-margin (not flex gap) so the two identical halves tile perfectly for a seamless -50% loop */
+  .marquee img{height:60px;width:auto;max-width:224px;object-fit:contain;flex:none;margin-right:62px;
+    filter:grayscale(100%);opacity:.62;transition:filter .25s,opacity .25s}
+  .marquee img:hover{filter:none;opacity:1}
+  .marquee img.md{height:73px;max-width:299px}   /* mid tier */
+  .marquee img.lg{height:83px;max-width:364px}   /* large tier */
+  .marquee img.xl{height:94px;max-width:390px}   /* emblems that still read small at lg (MAFAT, VATAT) */
+  .marquee img.xxl{height:143px;max-width:572px}  /* extra-large: Boeing wordmark, MAFAT, VATAT */
+  .marquee a.mlink{display:inline-flex;align-items:center;flex:none}
+  .marquee:has(:focus-visible) .marquee-track{animation-play-state:paused}
+  @keyframes marquee{to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;row-gap:40px}}
+  @media(max-width:600px){ .pi-feature{flex-direction:column;gap:20px} .pi-feature .mphoto{width:160px} }
+  .pi-bio a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(45,107,181,.3)}
+  .pi-bio a:hover{border-bottom-color:var(--accent)}
+  .msocial{display:flex;gap:11px;margin-top:9px}
+  .msocial a{color:var(--faint);display:inline-flex;transition:color .15s}
+  .msocial a:hover{color:var(--accent)}
+  .msocial svg{width:16px;height:16px;display:block}
+  .pi-social{margin-top:16px}
+  .pi-social svg{width:18px;height:18px}
+
+  /* ---- media ---- */
+  .mediagrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:26px;margin-top:44px}
+  .vcard{display:block}
+  .vthumb{position:relative;display:block;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bg-soft)}
+  .vthumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .vcard:hover .vthumb img{transform:scale(1.04)}
+  .vplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;
+    background:rgba(45,107,181,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.28);transition:background .2s}
+  .vcard:hover .vplay{background:var(--accent)}
+  .vplay::after{content:"";border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent #fff;margin-left:3px}
+  .vtitle{display:block;font-size:14.5px;font-weight:600;line-height:1.4;margin-top:14px;letter-spacing:-.01em}
+  .vcard:hover .vtitle{color:var(--accent)}
+  /* video lightbox */
+  .vmodal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(12,20,33,.82);backdrop-filter:blur(4px);padding:24px;opacity:0;transition:opacity .2s}
+  .vmodal.open{display:flex;opacity:1}
+  .vmodal-box{position:relative;width:min(1040px,100%)}
+  .vmodal-frame{position:relative;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+  .vmodal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vmodal-close{position:absolute;top:-42px;right:0;width:34px;height:34px;border:0;border-radius:50%;
+    background:rgba(255,255,255,.14);color:#fff;font-size:21px;line-height:1;cursor:pointer;transition:background .15s}
+  .vmodal-close:hover{background:rgba(255,255,255,.3)}
+
+  /* ---- join (dark band) ---- */
+  .join{background:var(--dark);color:#fff}
+  .join h2{color:#fff}
+  .join .sec-lede{color:rgba(255,255,255,.66);max-width:60ch}
+  .joincards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:46px}
+  .jc{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:28px;background:rgba(255,255,255,.03)}
+  .jc h3{font-size:18px;font-weight:600;margin-bottom:10px}
+  .jc p{font-size:14px;color:rgba(255,255,255,.62);line-height:1.6}
+  .join .cta{margin-top:42px}
+
+  /* ---- publications ---- */
+  .pubhead{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .viewall{display:inline-flex;align-items:center;gap:9px;color:var(--accent);font-size:17px;font-weight:600}
+  .viewall:hover{color:var(--accent-deep)}
+  .viewall-end{margin-top:38px;display:flex;justify-content:center}
+  .viewall-end .viewall{font-size:16px;background:var(--accent);color:#fff;padding:14px 30px;border-radius:10px;
+    box-shadow:0 4px 16px rgba(45,107,181,.28);transition:all .18s ease}
+  .viewall-end .viewall:hover{background:var(--accent-deep);color:#fff;transform:translateY(-1px);box-shadow:0 7px 22px rgba(45,107,181,.36)}
+  .viewall-end .viewall .arr{transition:transform .2s}
+  .viewall-end .viewall:hover .arr{transform:translateX(3px)}
+  .publist{margin-top:36px;border-top:1px solid var(--line)}
+  .pub{display:block;padding:24px 0;border-bottom:1px solid var(--line);transition:background .15s}
+  .pub:hover{background:var(--bg-soft)}
+  .pub .au{font-size:13.5px;color:var(--muted)}
+  .pub .ti{font-size:18px;font-weight:600;margin:7px 0 6px;letter-spacing:-.01em}
+  .pub:hover .ti{color:var(--accent)}
+  .pub .ve{font-size:13.5px;color:var(--faint);font-style:italic}
+  .pubstar{display:inline-block;font-size:11px;font-family:var(--mono);color:var(--accent);
+    border:1px solid var(--accent);border-radius:5px;padding:2px 7px;margin-left:10px;vertical-align:middle;letter-spacing:.04em}
+  .publist .pub{display:flex;gap:16px;align-items:flex-start}
+  .publist .toc{width:320px;aspect-ratio:1.9}   /* wider box → less side-crop on wide abstracts */
+  .publist .pubbody{flex:1;min-width:0}
+  @media(max-width:520px){ .publist .toc{display:none} }
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--line);padding:44px 0}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;align-items:center}
+  .foot .fb{font-weight:700}
+  .foot .flogo{height:58px;width:auto;display:block}
+  .foot .fbrand{display:flex;align-items:center;gap:18px}
+  .foot .fm{font-size:13.5px;color:var(--muted);margin-top:5px}
+  .foot .fr{font-size:13.5px;color:var(--muted);text-align:right}
+  .foot .fr a{color:var(--accent)}
+  .foot .fr .flinks{margin-top:5px;line-height:1.9}
+  /* institutional affiliation lockup */
+  .faffil{display:flex;align-items:center;gap:26px;flex-wrap:nowrap;min-width:0}
+  .faffil img{height:38px;width:auto;display:block;opacity:.82;transition:opacity .18s}
+  .faffil .fa-drg{height:48px;opacity:1}
+  .faffil a:hover img{opacity:1}
+  .faffil .fdiv{width:1px;height:32px;background:var(--line);flex:none}
+  @media(max-width:640px){ .faffil{gap:9px} .faffil img{height:19px} .faffil .fa-drg{height:26px} }
+
+  @media(max-width:880px){
+    nav.links,.nav .btn{display:none}
+    #pes{position:relative;width:100%;height:340px}
+    .hero::after{display:none}
+    .hero .wrap{padding:48px 32px 64px}
+    .stats .wrap,.grid3,.sw,.joincards{grid-template-columns:1fr}
+    .stat{border-right:0;border-bottom:1px solid var(--line)}
+  }
+</style>
+<script src="assets/a11y-toolbar.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<div class="topbar"><div class="wrap">
+  <a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener"><img src="assets/technion-logo.png" alt="Technion — Israel Institute of Technology"></a>
+  <span class="fdiv"></span>
+  <a href="https://chemeng.technion.ac.il/en/" target="_blank" rel="noopener"><img src="assets/cheme-logo.png" alt="Department of Chemical Engineering, Technion — Israel Institute of Technology"></a>
+  <span class="fdiv"></span>
+  <img class="tb-drg" src="assets/logo-mark.png" alt="Dana Research Group">
+</div></div>
+
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#top"><span class="bname">Dana Research Group</span><span class="btag">Autonomous Predictive Chemical Kinetics</span></a>
+  <nav class="links"><a href="#research">Research</a><a href="#software">Software</a><a href="#team">Team</a><a href="#industry">Industry</a><a href="#media">Media</a><a href="#join">Join us</a><a href="#pubs">Publications</a></nav>
+</div></header>
+
+<main id="content" tabindex="-1">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <canvas id="pes" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow">The Kinetics and Chemical Technology Laboratory<br>Wolfson Department of Chemical Engineering · Technion — IIT</div>
+    <h1>Autonomous platforms that predict chemical reactions before the lab does.</h1>
+    <p class="sub">We combine chemical engineering, software engineering, and quantum chemistry theory to build open-source AI-driven tools to predict how real-world reactive systems behave. We accelerate chemical R&amp;D by autonomous wet-lab validation. Our focus is on sustainable fuels, energy, polymers, pharma, and biochemistry.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="publications.html">Read our work <span class="arr">→</span></a>
+      <a class="btn btn-ghost" href="#media">View media</a>
+      <a class="btn btn-ghost" href="#software">Explore our software</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESEARCH ================= -->
+<section id="research" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker">Research directions</div>
+    <h2>A full-stack approach, from algorithms to self-driving labs.</h2>
+    <p class="sec-lede">Spanning core algorithms, resilient materials and sustainable fuels, and self-driving laboratories that close the loop between computation and experiment.</p>
+  </div>
+  <div class="pfr"><div class="pfr-tilt"><img src="assets/pfr.png" alt="Plug-flow reactor apparatus" width="2000" height="299"></div></div>
+  <div class="grid3">
+    <div class="card"><div class="ic">01</div><h3>Theory</h3><p>Accurate thermodynamics of complex species, automated transition-state searches with neural networks and generative methods, and quantum-driven refinement of chemical kinetic models.</p></div>
+    <div class="card"><div class="ic">02</div><h3>Engineering</h3><p>Generative search of novel molecules against multi-variable targets, and cyber-physical systems for automated hypothesis generation, refinement, validation, and revision.</p></div>
+    <div class="card"><div class="ic">03</div><h3>Applications</h3><p>Sustainable aviation fuels, satellite propellants, and CO₂ conversion in energy; drug shelf-life and retro-synthesis in pharma; 2D materials and block co-polymers in electronics.</p></div>
+  </div>
+</div></section>
+
+<!-- ================= SOFTWARE ================= -->
+<section id="software"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker">Open-source software</div>
+    <h2>Tools tailored for human and agentic chemical prediction.</h2>
+    <p class="sec-lede">We disseminate our work through high-quality, open-source packages our group develops and maintains.</p>
+  </div>
+  <div class="sw">
+    <div class="swc"><h3>ARC</h3><div class="nm">Automated Rate Calculator</div><p>Automates electronic-structure calculations to attain thermo-kinetic data relevant for chemical kinetic modeling.</p><a class="gh" href="https://github.com/ReactionMechanismGenerator/ARC" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>View on GitHub</a></div>
+    <div class="swc"><h3>T3</h3><div class="nm">The Tandem Tool</div><p>Performs automated kinetic model generation and refinement, closing the loop between simulation and computation.</p><a class="gh" href="https://github.com/ReactionMechanismGenerator/T3" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>View on GitHub</a></div>
+    <div class="swc"><h3>TCKDB</h3><div class="nm">Theoretical Chemical Kinetics Database</div><p>Standardizes theoretical chemical kinetics data and makes it conveniently available to the international community.</p><a class="gh" href="https://github.com/TCKDB/TCKDB" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>View on GitHub</a></div>
+  </div>
+</div></section>
+
+<!-- ================= TEAM ================= -->
+<section id="team" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker">The group</div>
+    <h2>Meet the team.</h2>
+    <p class="sec-lede">The people behind the science.</p>
+  </div>
+  <div id="team-body"></div>
+</div></section>
+
+<!-- ================= INDUSTRY ================= -->
+<section id="industry" class="industry"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker">Industry</div>
+    <h2>Bring predictive chemistry into your R&amp;D.</h2>
+    <p class="sec-lede">We partner with industry to compute what the lab would find — before the experiment runs — and fold it straight into your development pipeline.</p>
+  </div>
+  <div class="pills">
+    <span class="pill">Computational chemistry</span>
+    <span class="pill">Chemical kinetics</span>
+    <span class="pill">Molecular discovery</span>
+    <span class="pill">Agentic-AI workflows</span>
+  </div>
+  <div class="icta"><a class="btn btn-primary" href="mailto:alon@technion.ac.il">Start a collaboration <span class="arr">→</span></a></div>
+</div></section>
+
+<!-- ================= PARTNERS ================= -->
+<section class="partners" id="partners">
+  <div class="plabel">Partners &amp; support</div>
+  <div class="marquee"><div class="marquee-track" id="marquee-track"></div></div>
+</section>
+
+<!-- ================= MEDIA ================= -->
+<section id="media"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker">Media</div>
+    <h2>Talks &amp; features.</h2>
+  </div>
+  <div class="mediagrid">
+    <a class="vcard" href="https://www.youtube.com/watch?v=OhPZbZdwnYY" target="_blank" rel="noopener">
+      <span class="vthumb"><img loading="lazy" decoding="async" src="assets/media/kinetics-lab-intro-video.jpg" alt="The Kinetics and Chemical Technology Laboratory — Alon Grinberg Dana, Technion"><span class="vplay"></span></span>
+      <span class="vtitle">The Kinetics and Chemical Technology Laboratory — Alon Grinberg Dana, Technion</span>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=o5Uaob7DMzU" target="_blank" rel="noopener">
+      <span class="vthumb"><img loading="lazy" decoding="async" src="assets/media/dana-research-group-overview-video.jpg" alt="Dana Research Group — Fundamental and Applied Chemical Kinetics"><span class="vplay"></span></span>
+      <span class="vtitle">Dana Research Group — Fundamental and Applied Chemical Kinetics</span>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=Rkr3MTT4Vss" target="_blank" rel="noopener">
+      <span class="vthumb"><img loading="lazy" decoding="async" src="assets/media/zuckerman-stem-program-video.jpg" alt="Zuckerman STEM Program — Alon Grinberg Dana"><span class="vplay"></span></span>
+      <span class="vtitle">Zuckerman STEM Program — Alon Grinberg Dana</span>
+    </a>
+    <a class="vcard" href="https://www.youtube.com/watch?v=Rc8pyKk5RZI" target="_blank" rel="noopener">
+      <span class="vthumb"><img loading="lazy" decoding="async" src="assets/media/grand-technion-energy-program-video.jpg" alt="Grand Technion Energy Program — Alon Grinberg Dana"><span class="vplay"></span></span>
+      <span class="vtitle">Grand Technion Energy Program — Alon Grinberg Dana</span>
+    </a>
+  </div>
+</div></section>
+
+<!-- ================= JOIN ================= -->
+<section class="join" id="join"><div class="wrap">
+  <div class="sec-h">
+    <div class="kicker" style="color:#8FBDEB">Join the group</div>
+    <h2>Build the next platform technology with us.</h2>
+    <p class="sec-lede">Gain invaluable experience with advanced computational tools and Agentic AI workflows. We are committed to a diverse environment and equal opportunity for all.</p>
+  </div>
+  <div class="joincards">
+    <div class="jc"><h3>Graduate students</h3><p>MSc and PhD tracks leading exciting research in Chemical Engineering, computational chemistry, and closed-loop agentic workflows.<br>We're looking for the very best individuals. Apply with your CV + transcripts.</p></div>
+    <div class="jc"><h3>Postdocs</h3><p>Early career PhD researchers with experience in chemical kinetics / computational chemistry / advanced agentic methods are invited to apply. Send your CV + transcripts + selected publications.</p></div>
+    <div class="jc"><h3>Undergraduates</h3><p>Technion students seeking research opportunities for credit can work with our top graduate students and researchers. This is usually done in pairs. A great way to get to know the group.</p></div>
+  </div>
+  <div class="cta"><a class="btn btn-primary" href="mailto:alon@technion.ac.il">Contact Alon about open positions <span class="arr">→</span></a></div>
+</div></section>
+
+<!-- ================= PUBLICATIONS ================= -->
+<section id="pubs"><div class="wrap">
+  <div class="pubhead">
+    <h2>Recent &amp; selected publications</h2>
+    <a class="viewall" href="publications.html">📖 View all publications <span class="arr">→</span></a>
+  </div>
+  <div class="publist" id="home-publist"></div>
+  <div class="viewall-end"><a class="viewall" href="publications.html">📖 View all publications <span class="arr">→</span></a></div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap"><div class="foot">
+  <div class="faffil">
+    <a href="https://www.technion.ac.il/en/" target="_blank" rel="noopener"><img src="assets/technion-logo.png" alt="Technion — Israel Institute of Technology"></a>
+    <span class="fdiv"></span>
+    <a href="https://chemeng.technion.ac.il/en/" target="_blank" rel="noopener"><img src="assets/cheme-logo.png" alt="Department of Chemical Engineering, Technion — Israel Institute of Technology"></a>
+    <span class="fdiv"></span>
+    <img class="fa-drg" src="assets/logo-mark.png" alt="Dana Research Group">
+  </div>
+  <div class="fr">© 2026 Dana Research Group<br>
+    <nav class="flinks" aria-label="Site policies and directory"><a href="#accessibility">Accessibility</a> · <a href="https://www.technion.ac.il/%D7%9E%D7%93%D7%99%D7%A0%D7%99%D7%95%D7%AA-%D7%A4%D7%A8%D7%98%D7%99%D7%95%D7%AA/" target="_blank" rel="noopener">Privacy</a> · <a href="https://chemeng.technion.ac.il/en/phonebook/" target="_blank" rel="noopener">Phone directory</a> · <a href="sitemap.html">Site map</a></nav></div>
+</div></div></footer>
+
+<section id="accessibility" class="a11y-statement" aria-labelledby="a11y-title">
+  <div class="wrap">
+    <h2 id="a11y-title">Accessibility statement</h2>
+    <p><strong>Scope.</strong> This declaration covers the entire Dana Research Group website — this home page, the <a href="publications.html">publications page</a>, and the <a href="sitemap.html">site map</a>. The site aims to conform to the Israeli Standard <strong>IS 5568</strong> (based on <strong>WCAG 2.0 level AA</strong>) and the Equal Rights for Persons with Disabilities (Accessibility Adjustments to a Service) Regulations, 2013. It provides semantic structure and landmarks, full keyboard navigation with a visible focus indicator, a skip-to-content link, an accessibility toolbar (text size, contrast, and display adjustments), and text alternatives for images, and it honours your system settings for reduced motion, contrast, and text zoom.</p>
+    <p><strong>Known limitations.</strong> As a research-group site, some content — in particular older publication PDFs — may not be fully accessible. If you find any content you are unable to use, please contact the accessibility coordinator below and we will make it accessible to you, ordinarily within 60&nbsp;days of your request.</p>
+    <p>The Fundamental and Applied Chemical Kinetics Lab is located in the Wolfson Department of Chemical Engineering, Room&nbsp;313, Technion City, Haifa; the facility is accessible via elevators. The group does not routinely receive the public on-site; visits are by prior arrangement, and accessibility accommodations can be arranged in advance via the coordinator.</p>
+    <p><strong>Reporting an accessibility problem.</strong> If you encounter an accessibility barrier on this site, please contact our accessibility coordinator, <strong>Assoc. Prof. Alon Grinberg Dana</strong> (Group head): <a href="mailto:dana.group@technion.ac.il">dana.group@technion.ac.il</a>, <a href="tel:+972733782117">+972-73-378-2117</a>. Please describe the problem, the page, and what you were trying to do. If you are not satisfied with our response, you may lodge a complaint with the Commission for Equal Rights of Persons with Disabilities at the Ministry of Justice, which oversees enforcement of the accessibility regulations.</p>
+    <p class="a11y-meta">
+      <span>Last reviewed: 7&nbsp;July&nbsp;2026</span>
+      <span><a href="https://accessibility.net.technion.ac.il/" target="_blank" rel="noopener noreferrer">Technion accessibility site</a> · <a href="https://www.technion.ac.il/%D7%9E%D7%93%D7%99%D7%A0%D7%99%D7%95%D7%AA-%D7%A4%D7%A8%D7%98%D7%99%D7%95%D7%AA/" target="_blank" rel="noopener noreferrer">Technion privacy policy</a></span>
+    </p>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/hero/network-core.js"></script>
+<script src="assets/hero/hero-network.js"></script>
+<script>
+  window.__hero = HeroNetwork.init(document.getElementById('pes'), {});
+</script>
+
+<script src="assets/publications.js"></script>
+<script src="assets/pubview.js"></script>
+<script>
+  (function(){
+    var data = window.PUBLICATIONS || [];
+    var el = document.getElementById('home-publist');
+    if(!el) return;
+    var recent = data.slice(0, 3);
+    var selected = data.filter(function(p){ return p.highlight; });
+    var seen = [], rows = [];
+    recent.concat(selected).forEach(function(p){
+      if(seen.indexOf(p) === -1){ seen.push(p); rows.push(p); }
+    });
+    rows.sort(function(a,b){ return b.year - a.year; });
+    rows = rows.slice(0, 6);
+    function esc(s){ return String(s).replace(/[&<>]/g, function(c){
+      return c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;'; }); }
+    function hrefAttr(u){ return String(u).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+    el.innerHTML = rows.map(function(p){
+      var star = p.highlight ? '<span class="pubstar">★ Selected</span>' : '';
+      var url = PubView.doiUrl(p);
+      var href = url ? hrefAttr(url) : 'publications.html';
+      var newtab = url ? ' target="_blank" rel="noopener"' : '';
+      return '<a class="pub" href="' + href + '"' + newtab + '>' +
+        PubView.tocFigure(p) +
+        '<div class="pubbody">' +
+        '<div class="au">' + esc(p.authors) + '</div>' +
+        '<div class="ti">' + esc(p.title) + star + '</div>' +
+        '<div class="ve">' + esc(p.venue) + '</div>' +
+        '</div></a>';
+    }).join('');
+  })();
+</script>
+
+<script src="assets/team.js"></script>
+<script>
+  (function(){
+    var team = window.TEAM;
+    var root = document.getElementById('team-body');
+    if(!team || !root) return;
+    function esc(s){ return String(s == null ? '' : s).replace(/[&<>]/g, function(c){
+      return c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;'; }); }
+    function initials(n){ return String(n).replace(/\(.*?\)/g,'').trim().split(/\s+/)
+      .filter(Boolean).slice(0,2).map(function(w){ return w[0]; }).join('').toUpperCase(); }
+    function photo(m){ return m.photoFile
+      ? '<img class="mphoto" loading="lazy" decoding="async" src="assets/team/' + esc(m.photoFile) + '" alt="' + esc(m.name) + '">'
+      : '<div class="mphoto mph-ph">' + esc(initials(m.name)) + '</div>'; }
+    var IC = {
+      email: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-.4 4.25-7.07 4.42a1 1 0 0 1-1.06 0L4.4 8.25a.85.85 0 1 1 .9-1.44L12 11l6.7-4.19a.85.85 0 1 1 .9 1.44Z"/></svg>',
+      github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.87.87 2.33.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>',
+      linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.51a2.5 2.5 0 0 1 4.98 0ZM.24 8h4.5v14H.24V8Zm7.1 0h4.32v1.9h.06c.6-1.1 2.07-2.26 4.26-2.26 4.56 0 5.4 3 5.4 6.9V22h-4.5v-6.56c0-1.56-.03-3.57-2.18-3.57-2.18 0-2.51 1.7-2.51 3.46V22h-4.5V8Z"/></svg>'
+    };
+    function social(m){
+      if(!m.links) return '';
+      var out = ['email','github','linkedin'].filter(function(k){ return m.links[k]; }).map(function(k){
+        return '<a href="' + esc(m.links[k]) + '"' + (k === 'email' ? '' : ' target="_blank" rel="noopener"') +
+          ' aria-label="' + k + '">' + IC[k] + '</a>';
+      });
+      return out.length ? '<div class="msocial">' + out.join('') + '</div>' : '';
+    }
+    function card(m){
+      var roleInner = m.roleHtml ? String(m.roleHtml) : (m.role ? esc(m.role) : '');
+      var role = roleInner ? '<div class="mrole">' + roleInner + '</div>' : '';
+      var sub = m.subtitle ? '<div class="msub">' + esc(m.subtitle) + '</div>' : '';
+      return '<div class="member">' + photo(m) +
+        '<div class="mname">' + esc(m.name) + '</div>' +
+        role + social(m) + sub + '</div>';
+    }
+    root.innerHTML = (team.groups || []).map(function(g){
+      if(g.label === 'PI'){
+        var pi = g.members[0];
+        var bio = team.piBioHtml || (team.piBio ? esc(team.piBio) : '');
+        var piSoc = social(pi);
+        return '<div class="pi-feature">' + photo(pi) + '<div class="pi-info">' +
+          '<div class="mname">' + esc(pi.name) + '</div>' +
+          '<div class="mrole">' + esc(pi.role) + '</div>' +
+          (bio ? '<div class="pi-bio">' + bio + '</div>' : '') +
+          (piSoc ? '<div class="pi-social">' + piSoc + '</div>' : '') +
+          '</div></div>';
+      }
+      var gcls = /alumni/i.test(g.label) ? ' tgroup--alumni' : '';
+      return '<div class="tgroup' + gcls + '"><div class="tglabel">' + esc(g.label) + '</div>' +
+        '<div class="mgrid">' + g.members.map(card).join('') + '</div></div>';
+    }).join('');
+  })();
+</script>
+
+<!-- video lightbox: plays media in a darkened on-page modal instead of a new tab -->
+<div id="vmodal" class="vmodal" role="dialog" aria-modal="true" aria-label="Video player" aria-hidden="true">
+  <div class="vmodal-box">
+    <button type="button" class="vmodal-close" id="vmodal-close" aria-label="Close video">&times;</button>
+    <div class="vmodal-frame" id="vmodal-frame"></div>
+  </div>
+</div>
+<script>
+  (function(){
+    var modal = document.getElementById('vmodal');
+    var frame = document.getElementById('vmodal-frame');
+    var closeBtn = document.getElementById('vmodal-close');
+    if(!modal || !frame) return;
+    var lastTrigger = null;   // element to restore focus to when the modal closes
+    var inerted = [];         // background elements made inert while the dialog is open
+    function setBackgroundInert(on){
+      if(on){
+        Array.prototype.forEach.call(document.body.children, function(el){
+          if(el === modal || el.tagName === 'SCRIPT') return;
+          el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); inerted.push(el);
+        });
+      } else {
+        inerted.forEach(function(el){ el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); });
+        inerted = [];
+      }
+    }
+    function focusables(){
+      return Array.prototype.slice.call(
+        modal.querySelectorAll('button, iframe, a[href], [tabindex]:not([tabindex="-1"])')
+      ).filter(function(el){ return el.offsetParent !== null; });
+    }
+    function ytId(href){
+      var m = /[?&]v=([^&]+)/.exec(href) || /youtu\.be\/([^?&\/]+)/.exec(href) || /\/embed\/([^?&\/]+)/.exec(href);
+      return m ? m[1] : null;
+    }
+    function open(id){
+      var src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0&playsinline=1';
+      if(/^https?:$/.test(location.protocol)) src += '&origin=' + encodeURIComponent(location.origin);
+      frame.innerHTML = '<iframe src="' + src + '" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+      modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      setBackgroundInert(true);             // seal off the page behind the dialog
+      closeBtn.focus();                     // move focus into the dialog
+    }
+    function close(){
+      modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+      frame.innerHTML = '';                 // unload the iframe to stop playback
+      document.body.style.overflow = '';
+      setBackgroundInert(false);            // restore the page
+      if(lastTrigger){ lastTrigger.focus(); lastTrigger = null; }  // return focus to the trigger
+    }
+    document.querySelectorAll('.vcard').forEach(function(a){
+      a.addEventListener('click', function(e){
+        if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;  // let modified clicks open the link
+        if(location.protocol === 'file:'){            // embeds can't load from a file:// origin — pop the video into a floating window
+          e.preventDefault();
+          var w = 960, h = 600,
+              x = Math.max(0, ((screen.width || 1280) - w) / 2),
+              y = Math.max(0, ((screen.height || 800) - h) / 2),
+              win = window.open(a.getAttribute('href'), 'drg-video',
+                    'width=' + w + ',height=' + h + ',left=' + x + ',top=' + y);
+          if(win){ win.opener = null; win.focus(); }   // reuse one window; block reverse-tabnabbing
+          return;
+        }
+        var id = ytId(a.getAttribute('href') || '');
+        if(!id) return;                     // unknown URL → fall back to the normal link
+        e.preventDefault(); lastTrigger = a; open(id);
+      });
+    });
+    closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', function(e){ if(e.target === modal) close(); });
+    document.addEventListener('keydown', function(e){
+      if(!modal.classList.contains('open')) return;
+      if(e.key === 'Escape'){ close(); return; }
+      if(e.key === 'Tab'){                          // trap focus within the dialog
+        var f = focusables(); if(!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+
+  // Partners marquee: render the logo set twice so the CSS translateX(-50%) loops seamlessly.
+  (function(){
+    var track = document.getElementById('marquee-track');
+    if(!track) return;
+    var logos = [
+      ['technion.png', 'Technion', 'lg', 'https://adri.technion.ac.il/'],
+      ['boeing.png', 'Boeing', 'xxl', 'https://www.boeing.com/'],
+      ['rafael.png', 'Rafael', 'lg', 'https://www.rafael.co.il/'],
+      ['dfg.png', 'Deutsche Forschungsgemeinschaft (DFG)', 'lg', 'https://www.dfg.de/en'],
+      ['israel-science-foundation.png', 'Israel Science Foundation', 'md', 'https://www.isf.org.il/'],
+      ['gtep.png', 'Grand Technion Energy Program', 'lg', 'https://gtep.technion.ac.il/'],
+      ['resnick-center.png', 'Resnick Sustainability Center for Catalysis', 'md', 'https://rscc.technion.ac.il/'],
+      ['isaf.png', 'Israeli Sustainable Aviation Fuel (iSAF) Knowledge Center', '', 'https://isaf.technion.ac.il/'],
+      ['british-council.png', 'British Council', '', 'https://www.britishcouncil.org/'],
+      ['mafat.png', 'MAFAT — Directorate of Defense R&D', 'xxl', 'https://ddrd-mafat.mod.gov.il/en'],
+      ['council-higher-education.png', 'Council for Higher Education', 'xxl', 'https://che.org.il/en/'],
+      ['ministry-innovation.png', 'Israel Ministry of Innovation, Science & Technology', 'md', 'https://www.gov.il/en/departments/ministry_of_science_and_technology'],
+      ['tchsf.jpg', 'Technion Center for High-Speed Flight', 'md', 'https://hypersonics.technion.ac.il/']
+    ];
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+      return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&quot;'; }); }
+    function set(hidden){
+      return logos.map(function(l){
+        var cls = l[2] ? ' class="' + esc(l[2]) + '"' : '';
+        var a11y = hidden ? ' alt="" aria-hidden="true"' : ' alt="' + esc(l[1]) + '"';
+        var img = '<img' + cls + ' loading="lazy" decoding="async" src="assets/sponsors/' + esc(l[0]) + '"' + a11y + '>';
+        if(!l[3]) return img;
+        var ax = hidden ? ' tabindex="-1" aria-hidden="true"' : '';
+        return '<a class="mlink" href="' + esc(l[3]) + '" target="_blank" rel="noopener"' + ax + '>' + img + '</a>';
+      }).join('');
+    }
+    track.innerHTML = set(false) + set(true);   // real copy + hidden duplicate → seamless -50% loop
+    track.setAttribute('aria-label', 'Partners and sponsors');
+  })();
+</script>
+</body>
+</html>
